@@ -1,0 +1,10 @@
+node_modules/
+backend/data.db
+*.log
+/.vscode/
+node_modules/
+.env
+backend/
+scripts/
+uploads/
+logs/

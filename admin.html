@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin - Portafolio</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <button id="logout">Cerrar sesión</button>
+  </header>
+  <main class="container">
+    <h1>Panel Admin</h1>
+    <section>
+      <h2>Agregar video</h2>
+      <form id="videoForm">
+        <input name="title" placeholder="Título" required>
+        <input name="url" placeholder="URL" required>
+        <button>Agregar</button>
+      </form>
+    </section>
+    <section>
+      <h2>Videos</h2>
+      <ul id="videos"></ul>
+    </section>
+  </main>
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+:root{--bg:#f6f8fa;--card:#fff;--accent:#0069d9}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;background:var(--bg);margin:0;padding:20px}
+.container{max-width:900px;margin:0 auto}
+header{display:flex;justify-content:space-between;align-items:center}
+h1{margin:0}
+section{background:var(--card);padding:16px;border-radius:8px;margin-top:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+input,button{padding:8px;margin:6px 4px}
+button{background:var(--accent);color:#fff;border:none;border-radius:4px}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{border-bottom:1px solid #eee;padding:8px;text-align:left}
+#status{font-size:0.9rem;color:#333}
+#status.ok{color:green}
+#status.err{color:red}
+/* estilos para botones del panel */
+.small{padding:6px 10px;background:linear-gradient(135deg,#6e48aa 0%,#9d50bb 100%);color:#fff;border-radius:6px;border:none;margin-left:6px}
+.small.disabled{opacity:0.5;cursor:not-allowed;background:#888}
+.panel{background:#fafafa;border:1px solid #eee;padding:12px;border-radius:6px}
+.ip-delete{color:#e74c3c;border:none;background:transparent;cursor:pointer}

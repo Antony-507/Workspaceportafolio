@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Panel Admin - Portafolio</title>
+  <link rel="stylesheet" href="/admin.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Panel de administración</h1>
+      <div id="status"></div>
+    </header>
+    <section id="auth">
+      <h2>Acceso</h2>
+      <form id="loginForm">
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Contraseña" required />
+        <button type="submit">Entrar</button>
+      </form>
+      <button id="logoutBtn" style="display:none">Cerrar sesión</button>
+    </section>
+  <!-- Solo Managers logueados verán los controles de administración; el frontend también verifica role -->
+
+    <section id="main" style="display:none">
+      <div style="display:flex; gap:12px; align-items:center; justify-content:space-between;">
+        <h2>Usuarios</h2>
+        <div style="margin-left:auto">
+          <button id="btnAgregar" class="small">Agregar</button>
+          <button id="btnModificar" class="small">Modificar</button>
+          <button id="btnEliminar" class="small">Eliminar</button>
+        </div>
+      </div>
+
+      <div id="panelAgregar" class="panel" style="display:none; margin-top:12px;">
+        <h3>Agregar usuario</h3>
+        <form id="createUserForm">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <input type="text" id="newNombre" placeholder="Usuario (obligatorio)" required />
+            <input type="password" id="newPassword" placeholder="Contraseña (obligatorio)" required />
+            <input type="email" id="newEmail" placeholder="Gmail (opcional)" />
+            <input type="text" id="newIP" placeholder="IP (obligatorio)" required />
+          </div>
+          <div style="margin-top:8px;"><button type="submit">Crear usuario</button> <button type="button" id="cancelAgregar">Cancelar</button></div>
+        </form>
+      </div>
+
+      <div id="panelModificar" class="panel" style="display:none; margin-top:12px;">
+        <h3>Modificar usuario</h3>
+        <div id="modifyHint">Selecciona un usuario en la lista para editar.</div>
+        <form id="modifyUserForm" style="display:none; margin-top:8px;">
+          <input type="hidden" id="modUserId" />
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <input type="text" id="modNombre" placeholder="Usuario" required />
+            <input type="password" id="modPassword" placeholder="Nueva contraseña (dejar vacío para no cambiar)" />
+            <input type="email" id="modEmail" placeholder="Gmail (opcional)" />
+            <input type="text" id="modIP" placeholder="IP (opcional)" />
+          </div>
+          <div id="userIps" style="margin-top:8px; display:none;">
+            <h4>IPs asociadas</h4>
+            <ul id="ipsListForUser" style="list-style:none;padding:0;margin:0;"> </ul>
+          </div>
+          <div style="margin-top:8px;"><button type="submit">Guardar cambios</button> <button type="button" id="cancelModificar">Cancelar</button></div>
+        </form>
+      </div>
+
+      <div id="panelEliminar" class="panel" style="display:none; margin-top:12px;">
+        <h3>Eliminar usuario</h3>
+        <div id="deleteHint">Selecciona un usuario en la lista y pulsa Eliminar.</div>
+      </div>
+
+      <div style="margin-top:12px;">
+        <button id="refreshUsers">Refrescar usuarios</button>
+      </div>
+      <table id="usersTable">
+        <thead><tr><th>Id</th><th>Nombre</th><th>Email</th><th>FechaRegistro</th><th>Acciones</th></tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <div style="margin-top:14px;color:#666;font-size:0.95rem;">Nota: las acciones de administración requieren que la petición provenga de la IP configurada como `ADMIN_IP` en el servidor.</div>
+      <section id="configSection" style="margin-top:18px;border-top:1px solid #eee;padding-top:12px;">
+        <h2>Configuración del servidor</h2>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+          <input type="text" id="cfg_dbServer" placeholder="DB Server (p.ej. (localdb)\\MSSQLLocalDB)" style="min-width:320px" />
+          <input type="text" id="cfg_dbUser" placeholder="DB User (opcional)" />
+          <input type="password" id="cfg_dbPassword" placeholder="DB Password (opcional)" />
+          <label style="display:flex;align-items:center;gap:6px;"><input type="checkbox" id="cfg_useWindowsAuth" /> Usar Windows Auth</label>
+          <input type="text" id="cfg_adminIp" placeholder="ADMIN_IP (p.ej. 127.0.0.1)" />
+        </div>
+        <div style="margin-top:10px;display:flex;gap:8px;align-items:center;">
+          <button id="cfgTestBtn" class="small">Probar conexión</button>
+          <button id="cfgSaveBtn" class="small">Guardar configuración</button>
+          <button id="cfgApplyBothBtn" class="small">Guardar y aplicar (Config + DB)</button>
+          <button id="runDbInitBtn" class="small">Ejecutar db_init.sql</button>
+          <button id="createLoginBtn" class="small">Crear login SQL</button>
+          <span id="cfgOutput" style="margin-left:12px;color:#333; font-size:0.95rem;"></span>
+        </div>
+        <div style="margin-top:8px;color:#666;font-size:0.9rem;">Guardado en `backend/config.json` en el servidor. Solo ADMIN_IP puede ejecutar estas acciones.</div>
+      </section>
+
+      <section id="createLoginSection" style="margin-top:12px; display:none;">
+        <h3>Crear login SQL</h3>
+        <form id="createLoginForm">
+          <input type="text" id="loginName" placeholder="loginName (ej: webuser)" required />
+          <input type="password" id="loginPassword" placeholder="Contraseña" required />
+          <button type="submit">Crear login</button>
+          <button type="button" id="cancelCreateLogin">Cancelar</button>
+        </form>
+      </section>
+
+      <section id="filesSection" style="margin-top:18px; display:none;">
+        <h2>Archivos subidos</h2>
+        <div style="margin-bottom:8px;"><button id="refreshFiles">Refrescar lista de archivos</button></div>
+        <table id="filesTable"><thead><tr><th>Id</th><th>FileName</th><th>UsuarioId</th><th>Storage</th><th>UploadedAt</th><th>Acciones</th></tr></thead><tbody></tbody></table>
+      </section>
+
+    </section>
+  </div>
+  <script src="/admin.js"></script>
+</body>
+</html>
