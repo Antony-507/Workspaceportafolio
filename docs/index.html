@@ -59,6 +59,16 @@
     </main>
    
     <script>
+        // Redirige al login si no hay usuario en sessionStorage (login como principal)
+        window.addEventListener('DOMContentLoaded', function() {
+            const usuario = sessionStorage.getItem('usuario');
+            const guestMode = sessionStorage.getItem('guestMode');
+            // Si no hay usuario y no está en modo invitado, redirigir al login
+            if(!usuario && guestMode !== 'true') {
+                window.location.href = 'login.html';
+                return;
+            }
+        });
         // Botón de inicio
         document.getElementById('homeBtn').addEventListener('click', function(e) {
             const btn = this;
