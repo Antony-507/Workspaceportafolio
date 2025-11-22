@@ -50,7 +50,8 @@ function protectContent() {
 
 // Cargar galería
 function loadGallery() {
-    if(!auth.checkAuth()) {
+        
+    if(!auth.checkAuth()) {{
         return;
     }
     
@@ -140,3 +141,5 @@ function loadGallery() {
     window.addEventListener('DOMContentLoaded', () => {
         loadGallery();
     });
+    }
+}
